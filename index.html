@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>DASHBOARD</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Modern Admin Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    body {
+      background-color: #f4f6f9;
+      overflow-x: hidden;
+    }
+
+    .navbar {
+      background: #1f1f2e;
+    }
+
+    .sidebar {
+      background: linear-gradient(180deg, #2a2f4a, #1f1f2e);
+      min-height: 100vh;
+    }
+
+    .sidebar .nav-link {
+      color: #ced4da;
+      transition: background 0.3s;
+    }
+
+    .sidebar .nav-link.active,
+    .sidebar .nav-link:hover {
+      background-color: #495057;
+      color: #fff;
+      border-radius: 0.4rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 0.5rem 1.2rem rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease-in-out;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .stat-icon {
+      font-size: 1.8rem;
+      background: #e9ecef;
+      padding: 0.5rem;
+      border-radius: 50%;
+      color: #6c63ff;
+    }
+
+    .card-title {
+      font-weight: 600;
+    }
+
+    canvas {
+      background-color: #fff;
+      border-radius: 1rem;
+      padding: 1rem;
+    }
+
+    @media (max-width: 767.98px) {
+      .sidebar {
+        min-height: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-dark fixed-top shadow-sm">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="#">MyDashboard</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="d-lg-none">
+        <button class="btn btn-outline-light">
+          <i class="bi bi-bell-fill"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse pt-5">
+        <div class="position-sticky pt-3">
+          <ul class="nav flex-column px-3">
+            <li class="nav-item mb-2">
+              <a class="nav-link active" href="#"><i class="bi bi-speedometer2 me-2"></i> Dashboard</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a class="nav-link" href="#"><i class="bi bi-graph-up-arrow me-2"></i> Reports</a>
+            </li>
+            <li class="nav-item mb-2">
+              <a class="nav-link" href="#"><i class="bi bi-gear me-2"></i> Settings</a>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 pt-5 mt-3">
+        <div class="row g-4 mb-4">
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card text-center">
+              <div class="mb-2"><i class="bi bi-people stat-icon"></i></div>
+              <h6 class="fw-semibold">Users</h6>
+              <p class="display-6">1,245</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card text-center">
+              <div class="mb-2"><i class="bi bi-cart stat-icon"></i></div>
+              <h6 class="fw-semibold">Sales</h6>
+              <p class="display-6">$7,890</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card text-center">
+              <div class="mb-2"><i class="bi bi-bar-chart stat-icon"></i></div>
+              <h6 class="fw-semibold">Visits</h6>
+              <p class="display-6">32K</p>
+            </div>
+          </div>
+          <div class="col-sm-6 col-xl-3">
+            <div class="stat-card text-center">
+              <div class="mb-2"><i class="bi bi-bag-check stat-icon"></i></div>
+              <h6 class="fw-semibold">Orders</h6>
+              <p class="display-6">584</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="card shadow-sm rounded-4 mb-5">
+          <div class="card-body">
+            <h5 class="card-title">Site Traffic Overview</h5>
+            <canvas id="chartCanvas" height="100"></canvas>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    const ctx = document.getElementById('chartCanvas').getContext('2d');
+    const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Visits',
+          data: [1200, 1900, 3000, 2200, 2500, 2700, 3200],
+          fill: true,
+          borderColor: '#6c63ff',
+          backgroundColor: 'rgba(108, 99, 255, 0.1)',
+          tension: 0.4,
+          pointBackgroundColor: '#6c63ff',
+          pointRadius: 5
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: false
+          },
+          tooltip: {
+            backgroundColor: '#1f1f2e',
+            titleColor: '#fff',
+            bodyColor: '#ddd'
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 1000
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
